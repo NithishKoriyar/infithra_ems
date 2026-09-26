@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
+import { unsavedChangesGuard } from './guards/unsaved-changes.guard';
 
 // The 'Employees' crumb lives on the parent route in app.routes.ts so every child inherits it.
 export const EMPLOYEES_ROUTES: Routes = [
@@ -16,6 +17,7 @@ export const EMPLOYEES_ROUTES: Routes = [
     title: 'Add Employee · infithra',
     data: { breadcrumb: 'Add Employee' },
     component: EmployeeFormComponent,
+    canDeactivate: [unsavedChangesGuard],
   },
   {
     path: ':id',
@@ -29,5 +31,6 @@ export const EMPLOYEES_ROUTES: Routes = [
     title: 'Edit Employee · infithra',
     data: { breadcrumb: 'Edit Employee' },
     component: EmployeeFormComponent,
+    canDeactivate: [unsavedChangesGuard],
   },
 ];

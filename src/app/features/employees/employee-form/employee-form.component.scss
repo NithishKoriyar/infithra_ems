@@ -1,0 +1,93 @@
+@use '@angular/material' as mat;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  // Completed: filled neutral circle with a check. Active: accent. Upcoming: muted outline.
+  @include mat.stepper-overrides(
+    (
+      container-color: transparent,
+      line-color: var(--border),
+      header-height: 64px,
+      header-label-text-color: var(--muted),
+      header-label-text-font: var(--font-sans),
+      header-label-text-size: 14px,
+      header-label-text-weight: 500,
+      header-selected-state-label-text-color: var(--text),
+      header-selected-state-label-text-size: 14px,
+      header-selected-state-label-text-weight: 500,
+      header-icon-background-color: transparent,
+      header-icon-foreground-color: var(--muted),
+      header-selected-state-icon-background-color: var(--accent),
+      header-selected-state-icon-foreground-color: var(--accent-fg),
+      header-done-state-icon-background-color: var(--text),
+      header-done-state-icon-foreground-color: var(--panel),
+      header-edit-state-icon-background-color: var(--text),
+      header-edit-state-icon-foreground-color: var(--panel),
+      header-hover-state-layer-color: transparent,
+      header-focus-state-layer-color: transparent,
+    )
+  );
+}
+
+.form-card {
+  overflow: hidden;
+}
+
+.step-title {
+  display: block;
+}
+
+.step-sub {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.step-body {
+  padding: 8px 0 0;
+}
+
+.form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+
+  mat-spinner {
+    margin-right: 8px;
+  }
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+}
+
+.skeleton-bar {
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--hover);
+}
+
+@media (max-width: 767.98px) {
+  :host {
+    gap: 16px;
+  }
+
+  .form-footer {
+    padding: 16px;
+
+    button {
+      flex: 1;
+    }
+  }
+}

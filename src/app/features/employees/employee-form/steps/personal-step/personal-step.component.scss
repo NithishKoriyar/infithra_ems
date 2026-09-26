@@ -1,0 +1,60 @@
+.photo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.photo-drop,
+.photo-preview {
+  flex: none;
+  width: 96px;
+  height: 96px;
+  border-radius: var(--radius-full);
+}
+
+.photo-drop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--muted);
+  background: var(--panel);
+  color: var(--muted);
+}
+
+.photo-preview {
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+
+.photo-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+
+.photo-name {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.photo-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.joined {
+  display: flex;
+  gap: 8px;
+}
+
+.joined-code {
+  flex: none;
+  width: 116px;
+}
+
+.joined-number {
+  flex: 1;
+  min-width: 0;
+}

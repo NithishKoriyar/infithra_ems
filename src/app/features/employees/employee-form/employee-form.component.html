@@ -1,0 +1,85 @@
+<header class="page-header">
+  <div>
+    <h1 class="page-title">{{ isEdit() ? 'Edit Employee' : 'Add Employee' }}</h1>
+    <p class="page-subtitle">{{ subtitle() }}</p>
+  </div>
+</header>
+
+@if (loading()) {
+  <div class="card loading" role="status" aria-live="polite">
+    <span class="sr-only">Loading employee</span>
+    @for (bar of [1, 2, 3, 4]; track bar) {
+      <div class="skeleton-bar"></div>
+    }
+  </div>
+} @else if (notFound()) {
+  <app-empty-state
+    icon="person_off"
+    title="Employee not found"
+    message="The employee may have been deleted or the link is wrong."
+  >
+    <a mat-stroked-button routerLink="/employees">Back to employees</a>
+  </app-empty-state>
+} @else {
+  <form class="card form-card" [formGroup]="form" (ngSubmit)="save()" novalidate>
+    <mat-stepper
+      linear
+      [orientation]="vertical() ? 'vertical' : 'horizontal'"
+      (selectionChange)="step.set($event.selectedIndex)"
+    >
+      <ng-template matStepperIcon="edit"><mat-icon class="icon-16">check</mat-icon></ng-template>
+      <ng-template matStepperIcon="done"><mat-icon class="icon-16">check</mat-icon></ng-template>
+
+      <mat-step [stepControl]="form.controls.personal">
+        <ng-template matStepLabel>
+          <span class="step-title">Personal</span>
+          <span class="step-sub">Basic details</span>
+        </ng-template>
+        <div class="step-body" data-step="0">
+          <app-personal-step [form]="form.controls.personal" />
+        </div>
+      </mat-step>
+
+      <mat-step [stepControl]="form.controls.job">
+        <ng-template matStepLabel>
+          <span class="step-title">Job</span>
+          <span class="step-sub">Role and pay</span>
+        </ng-template>
+        <div class="step-body" data-step="1">
+          <app-job-step [form]="form.controls.job" />
+        </div>
+      </mat-step>
+
+      <mat-step [stepControl]="form.controls.other">
+        <ng-template matStepLabel>
+          <span class="step-title">Other</span>
+          <span class="step-sub">Documents and notes</span>
+        </ng-template>
+        <div class="step-body" data-step="2">
+          <app-other-step [form]="form.controls.other" />
+        </div>
+      </mat-step>
+    </mat-stepper>
+
+    <footer class="form-footer">
+      <button
+        mat-stroked-button
+        type="button"
+        [disabled]="step() === 0 || saving()"
+        (click)="back()"
+      >
+        Back
+      </button>
+      @if (step() < 2) {
+        <button mat-flat-button type="button" (click)="next()">Next</button>
+      } @else {
+        <button mat-flat-button type="submit" [disabled]="saving()">
+          @if (saving()) {
+            <mat-spinner diameter="16" aria-hidden="true" />
+          }
+          Save Employee
+        </button>
+      }
+    </footer>
+  </form>
+}

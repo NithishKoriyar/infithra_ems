@@ -2,7 +2,7 @@ export type EmployeeStatus = 'Active' | 'Probation' | 'Inactive';
 export type EmploymentType = 'Full-time' | 'Contract';
 export type Gender = 'Male' | 'Female';
 export type DocumentType = 'Visa' | 'Emirates ID' | 'Passport' | 'Labour Card' | 'Other';
-export type ActivityType = 'joined' | 'documents' | 'probation' | 'salary';
+export type ActivityType = 'joined' | 'documents' | 'probation' | 'salary' | 'updated';
 
 export interface EmployeeDocument {
   type: DocumentType;

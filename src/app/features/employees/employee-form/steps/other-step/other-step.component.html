@@ -1,0 +1,138 @@
+@let f = form();
+@let c = f.controls;
+
+<div class="other" [formGroup]="f">
+  <section class="documents" aria-labelledby="documents-heading">
+    <div class="section-row">
+      <div>
+        <h3 class="section-title" id="documents-heading">Documents</h3>
+        <p class="field-hint">Visa, passport and Emirates ID copies</p>
+      </div>
+      <button mat-stroked-button type="button" (click)="addDocument()">
+        <mat-icon>add</mat-icon>
+        Add document
+      </button>
+    </div>
+
+    <div formArrayName="documents" class="doc-rows">
+      @for (row of c.documents.controls; track row; let i = $index) {
+        @let r = row.controls;
+        <div class="doc-row" [formGroupName]="i">
+          <div class="field">
+            <label class="field-label" [for]="'doc-type-' + i"
+              >Type <span class="req">*</span></label
+            >
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-select [id]="'doc-type-' + i" formControlName="type" placeholder="Select type">
+                @for (type of documentTypes(); track type) {
+                  <mat-option [value]="type">{{ type }}</mat-option>
+                }
+              </mat-select>
+              <mat-error>Select a document type</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="field">
+            <label class="field-label" [for]="'doc-number-' + i">
+              Number <span class="req">*</span>
+            </label>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <input matInput [id]="'doc-number-' + i" formControlName="number" />
+              <mat-error>
+                @if (r.number.hasError('required')) {
+                  Document number is required
+                } @else {
+                  Use letters, digits and hyphens only
+                }
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="field">
+            <label class="field-label" [for]="'doc-expiry-' + i">
+              Expiry date <span class="req">*</span>
+            </label>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <input
+                matInput
+                [id]="'doc-expiry-' + i"
+                [matDatepicker]="expiryPicker"
+                formControlName="expiryDate"
+                placeholder="DD/MM/YYYY"
+              />
+              <mat-datepicker-toggle matIconSuffix [for]="expiryPicker" aria-label="Open calendar">
+                <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #expiryPicker />
+              <mat-error>Expiry date is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="field">
+            <span class="field-label">File</span>
+            <div class="upload">
+              <input
+                #fileInput
+                type="file"
+                accept=".pdf,.jpg,.jpeg,.png"
+                hidden
+                (change)="onFileSelected($event, row)"
+              />
+              <button mat-stroked-button type="button" (click)="fileInput.click()">
+                <mat-icon>attach_file</mat-icon>
+                {{ r.fileName.value ? 'Replace' : 'Upload' }}
+              </button>
+              <span class="file-name truncate">{{
+                r.fileName.value ?? 'PDF, JPG or PNG, max 2 MB'
+              }}</span>
+            </div>
+          </div>
+
+          <button
+            mat-icon-button
+            type="button"
+            class="remove"
+            [attr.aria-label]="'Remove document ' + (i + 1)"
+            (click)="removeDocument(i)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      } @empty {
+        <p class="field-hint">No documents added yet.</p>
+      }
+    </div>
+    @if (c.documents.hasError('duplicateDocumentType')) {
+      <span class="field-error" role="alert">Each document type can only be added once</span>
+    }
+  </section>
+
+  <div class="field">
+    <span class="field-label">Status</span>
+    <mat-slide-toggle formControlName="active">Active</mat-slide-toggle>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="notes">Notes</label>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <textarea
+        matInput
+        id="notes"
+        rows="4"
+        formControlName="notes"
+        [maxlength]="notesMax"
+        placeholder="Anything HR should know"
+      ></textarea>
+      <mat-hint align="end">{{ c.notes.value.length }} / {{ notesMax }}</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <div class="field">
+    <mat-checkbox formControlName="confirmed">
+      I confirm the details are correct <span class="req">*</span>
+    </mat-checkbox>
+    @if (c.confirmed.touched && c.confirmed.invalid) {
+      <span class="field-error" role="alert">Please confirm the details are correct</span>
+    }
+  </div>
+</div>

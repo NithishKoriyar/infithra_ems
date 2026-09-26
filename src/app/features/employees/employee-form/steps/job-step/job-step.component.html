@@ -1,0 +1,169 @@
+@let f = form();
+@let c = f.controls;
+
+<div class="form-grid" [formGroup]="f">
+  <div class="field">
+    <label class="field-label" for="department">Department <span class="req">*</span></label>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-select id="department" formControlName="department" placeholder="Select department">
+        @for (department of departments(); track department.id) {
+          <mat-option [value]="department.name">{{ department.name }}</mat-option>
+        }
+      </mat-select>
+      <mat-error>Select a department</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="designation">Designation <span class="req">*</span></label>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-select id="designation" formControlName="designation" placeholder="Select designation">
+        @for (designation of designations(); track designation.id) {
+          <mat-option [value]="designation.name">{{ designation.name }}</mat-option>
+        }
+      </mat-select>
+      @if (c.designation.disabled) {
+        <mat-hint>Select a department first</mat-hint>
+      }
+      <mat-error>Select a designation</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="joiningDate">Joining date <span class="req">*</span></label>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <input
+        matInput
+        id="joiningDate"
+        [matDatepicker]="joiningPicker"
+        formControlName="joiningDate"
+        placeholder="DD/MM/YYYY"
+      />
+      <mat-datepicker-toggle matIconSuffix [for]="joiningPicker" aria-label="Open calendar">
+        <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #joiningPicker />
+      <mat-error>
+        @if (c.joiningDate.hasError('required')) {
+          Joining date is required
+        } @else {
+          Enter a valid date
+        }
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="field">
+    <span class="field-label" id="employment-type-label">
+      Employment type <span class="req">*</span>
+    </span>
+    <mat-radio-group
+      class="options"
+      formControlName="employmentType"
+      aria-labelledby="employment-type-label"
+    >
+      <mat-radio-button value="Full-time">Full-time</mat-radio-button>
+      <mat-radio-button value="Contract">Contract</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  @if (c.employmentType.value === 'Contract') {
+    <div class="field">
+      <label class="field-label" for="contractEndDate">
+        Contract end date <span class="req">*</span>
+      </label>
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <input
+          matInput
+          id="contractEndDate"
+          [matDatepicker]="contractPicker"
+          [min]="c.joiningDate.value"
+          formControlName="contractEndDate"
+          placeholder="DD/MM/YYYY"
+        />
+        <mat-datepicker-toggle matIconSuffix [for]="contractPicker" aria-label="Open calendar">
+          <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #contractPicker />
+        <mat-error>
+          @if (c.contractEndDate.hasError('required')) {
+            Contract end date is required
+          } @else if (c.contractEndDate.hasError('dateAfter')) {
+            Contract end date must be after the joining date
+          } @else {
+            Enter a valid date
+          }
+        </mat-error>
+      </mat-form-field>
+    </div>
+  }
+
+  <div class="field">
+    <span class="field-label" id="shift-label">Shift timing</span>
+    <div class="shift" role="group" aria-labelledby="shift-label">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-icon matPrefix>schedule</mat-icon>
+        <input matInput type="time" formControlName="shiftStart" aria-label="Shift start" />
+      </mat-form-field>
+      <span class="muted">to</span>
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-icon matPrefix>schedule</mat-icon>
+        <input matInput type="time" formControlName="shiftEnd" aria-label="Shift end" />
+      </mat-form-field>
+    </div>
+    @if (c.shiftEnd.hasError('timeRange')) {
+      <span class="field-error" role="alert">Shift end must be after shift start</span>
+    }
+  </div>
+
+  <div class="field field--full">
+    <label class="field-label" for="skills">Skills</label>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="skills">
+      <mat-chip-grid #chipGrid aria-label="Skills">
+        @for (skill of c.skills.value; track skill) {
+          <mat-chip-row (removed)="removeSkill(skill)">
+            {{ skill }}
+            <button matChipRemove type="button" [attr.aria-label]="'Remove ' + skill">
+              <mat-icon class="icon-16">close</mat-icon>
+            </button>
+          </mat-chip-row>
+        }
+        <input
+          #skillBox
+          id="skills"
+          placeholder="Add a skill"
+          [formControl]="skillInput"
+          [matChipInputFor]="chipGrid"
+          [matAutocomplete]="skillAuto"
+          (matChipInputTokenEnd)="addSkill($event)"
+        />
+      </mat-chip-grid>
+      <mat-autocomplete #skillAuto (optionSelected)="selectSkill($event, skillBox)">
+        @for (skill of skillOptions(); track skill) {
+          <mat-option [value]="skill">{{ skill }}</mat-option>
+        }
+      </mat-autocomplete>
+      <mat-hint>Up to {{ maxSkills }} skills. Press Enter to add your own.</mat-hint>
+    </mat-form-field>
+    @if (skillError(); as error) {
+      <span class="field-error" role="alert">{{ error }}</span>
+    }
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="salary">Monthly salary (AED) <span class="req">*</span></label>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <span matTextPrefix class="prefix">AED</span>
+      <input matInput id="salary" type="number" min="0" step="0.01" formControlName="salary" />
+      <mat-error>
+        @if (c.salary.hasError('required')) {
+          Salary is required
+        } @else if (c.salary.hasError('positiveAmount')) {
+          Salary must be greater than 0
+        } @else {
+          Salary can't be more than 1,000,000
+        }
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>

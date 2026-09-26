@@ -170,3 +170,63 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
+
+// Forms: labels above fields, 2 columns on desktop and 1 on phones.
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 24px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+
+  > .mat-mdc-form-field {
+    width: 100%;
+  }
+}
+
+.field--full {
+  grid-column: 1 / -1;
+}
+
+.field-label {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.req {
+  margin-left: 2px;
+  color: var(--danger-text);
+}
+
+.field-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.field-error {
+  color: var(--danger-text);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.options {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-height: 36px;
+}
+
+@media (max-width: 767.98px) {
+  .form-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

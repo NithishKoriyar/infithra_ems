@@ -1,0 +1,191 @@
+@let f = form();
+@let c = f.controls;
+
+<div class="form-grid" [formGroup]="f">
+  <div class="field field--full">
+    <span class="field-label">Profile photo</span>
+    <div class="photo">
+      @if (c.photoUrl.value; as photo) {
+        <img class="photo-preview" [src]="photo" alt="Profile photo preview" />
+      } @else {
+        <span class="photo-drop" aria-hidden="true"
+          ><mat-icon class="icon-24">photo_camera</mat-icon></span
+        >
+      }
+      <div class="photo-meta">
+        <input
+          #photoInput
+          type="file"
+          accept="image/png,image/jpeg"
+          hidden
+          (change)="onPhotoSelected($event)"
+        />
+        @if (c.photoUrl.value) {
+          @if (photoFile(); as file) {
+            <span class="photo-name">{{ file.name }} · {{ file.size }}</span>
+          }
+          <div class="photo-actions">
+            <button mat-stroked-button type="button" (click)="photoInput.click()">Change</button>
+            <button mat-stroked-button type="button" (click)="removePhoto()">Remove</button>
+          </div>
+        } @else {
+          <button mat-stroked-button type="button" (click)="photoInput.click()">
+            <mat-icon>upload</mat-icon>
+            Upload photo
+          </button>
+          <span class="field-hint">JPG or PNG, max 1 MB</span>
+        }
+        @if (photoError(); as error) {
+          <span class="field-error" role="alert">{{ error }}</span>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="firstName">First name <span class="req">*</span></label>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <input matInput id="firstName" formControlName="firstName" autocomplete="given-name" />
+      <mat-error>
+        @if (c.firstName.hasError('required')) {
+          First name is required
+        } @else if (c.firstName.hasError('lettersOnly')) {
+          Only letters are allowed
+        } @else {
+          Use 50 characters or fewer
+        }
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="lastName">Last name <span class="req">*</span></label>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <input matInput id="lastName" formControlName="lastName" autocomplete="family-name" />
+      <mat-error>
+        @if (c.lastName.hasError('required')) {
+          Last name is required
+        } @else if (c.lastName.hasError('lettersOnly')) {
+          Only letters are allowed
+        } @else {
+          Use 50 characters or fewer
+        }
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="email">Email <span class="req">*</span></label>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-icon matPrefix>mail</mat-icon>
+      <input matInput id="email" type="email" formControlName="email" autocomplete="email" />
+      <mat-error>
+        @if (c.email.hasError('required')) {
+          Email is required
+        } @else {
+          Enter a valid email
+        }
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="mobile">Mobile <span class="req">*</span></label>
+    <div class="joined">
+      <mat-form-field class="joined-code" appearance="outline" subscriptSizing="dynamic">
+        <mat-select formControlName="countryCode" aria-label="Country code">
+          @for (code of countryCodes(); track code.iso) {
+            <mat-option [value]="code.dial">{{ code.iso }} {{ code.dial }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="joined-number" appearance="outline" subscriptSizing="dynamic">
+        <input
+          matInput
+          id="mobile"
+          inputmode="numeric"
+          formControlName="mobile"
+          placeholder="501234567"
+          autocomplete="tel-national"
+        />
+        <mat-error>
+          @if (c.mobile.hasError('required')) {
+            Mobile number is required
+          } @else {
+            Mobile number must be 9–10 digits
+          }
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="dateOfBirth">Date of birth <span class="req">*</span></label>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <input
+        matInput
+        id="dateOfBirth"
+        [matDatepicker]="dobPicker"
+        [max]="maxBirthDate"
+        formControlName="dateOfBirth"
+        placeholder="DD/MM/YYYY"
+      />
+      <mat-datepicker-toggle matIconSuffix [for]="dobPicker" aria-label="Open calendar">
+        <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #dobPicker startView="multi-year" />
+      <mat-error>
+        @if (c.dateOfBirth.hasError('required')) {
+          Date of birth is required
+        } @else if (c.dateOfBirth.hasError('futureDate')) {
+          Date of birth can't be in the future
+        } @else if (c.dateOfBirth.hasError('minimumAge')) {
+          Employee must be at least 18 years old
+        } @else {
+          Enter a valid date
+        }
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="field">
+    <span class="field-label" id="gender-label">Gender <span class="req">*</span></span>
+    <mat-radio-group class="options" formControlName="gender" aria-labelledby="gender-label">
+      <mat-radio-button value="Male">Male</mat-radio-button>
+      <mat-radio-button value="Female">Female</mat-radio-button>
+    </mat-radio-group>
+    @if (c.gender.touched && c.gender.invalid) {
+      <span class="field-error" role="alert">Select a gender</span>
+    }
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="nationality">Nationality <span class="req">*</span></label>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-icon matPrefix>search</mat-icon>
+      <input
+        matInput
+        id="nationality"
+        formControlName="nationality"
+        placeholder="Search nationality"
+        [matAutocomplete]="nationalityAuto"
+        (input)="nationalityQuery.set(c.nationality.value)"
+        (focus)="nationalityQuery.set('')"
+      />
+      <mat-autocomplete #nationalityAuto (optionSelected)="nationalityQuery.set('')">
+        @for (name of nationalityOptions(); track name) {
+          <mat-option [value]="name">{{ name }}</mat-option>
+        } @empty {
+          <mat-option disabled>No results</mat-option>
+        }
+      </mat-autocomplete>
+      <mat-error>
+        @if (c.nationality.hasError('required')) {
+          Select a nationality
+        } @else {
+          Pick a nationality from the list
+        }
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>
