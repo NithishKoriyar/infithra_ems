@@ -1,0 +1,76 @@
+:host {
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+}
+
+// Narrow screens scroll the table sideways instead of squashing columns.
+.scroll {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 860px;
+}
+
+th[aria-sort='ascending'],
+th[aria-sort='descending'] {
+  color: var(--text);
+}
+
+.row {
+  cursor: pointer;
+  transition: background-color 0.15s;
+
+  &:hover {
+    background: var(--row-hover);
+  }
+}
+
+.who {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.who-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.name {
+  color: var(--text);
+  font-weight: 500;
+  line-height: 18px;
+  border-radius: 4px;
+
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+}
+
+.email {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.id {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  width: 56px;
+  text-align: right;
+}
+
+mat-paginator {
+  border-top: 1px solid var(--border);
+}

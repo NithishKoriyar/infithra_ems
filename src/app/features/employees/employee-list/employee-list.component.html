@@ -1,0 +1,151 @@
+<header class="page-header header">
+  <div>
+    <h1 class="page-title">Employees</h1>
+    <p class="page-subtitle">Manage your team members and their details</p>
+  </div>
+  <div class="header-actions">
+    <button
+      mat-stroked-button
+      type="button"
+      [disabled]="loading() || !sorted().length"
+      (click)="exportCsv()"
+    >
+      <mat-icon>download</mat-icon>
+      Export CSV
+    </button>
+    <a mat-flat-button routerLink="/employees/new">
+      <mat-icon>add</mat-icon>
+      Add Employee
+    </a>
+  </div>
+</header>
+
+<div class="toolbar">
+  <mat-form-field class="search" appearance="outline" subscriptSizing="dynamic">
+    <mat-icon matPrefix>search</mat-icon>
+    <input
+      matInput
+      type="search"
+      placeholder="Search name, ID or email"
+      aria-label="Search employees"
+      [formControl]="searchControl"
+    />
+    @if (searchControl.value) {
+      <button
+        matSuffix
+        mat-icon-button
+        class="icon-btn-sm clear"
+        type="button"
+        aria-label="Clear search"
+        (click)="clearSearch()"
+      >
+        <mat-icon class="icon-18">close</mat-icon>
+      </button>
+    }
+  </mat-form-field>
+
+  <div class="toolbar-row">
+    <mat-form-field class="department" appearance="outline" subscriptSizing="dynamic">
+      <mat-select
+        aria-label="Filter by department"
+        [value]="department() ?? ''"
+        (valueChange)="setDepartment($event)"
+      >
+        <mat-option value="">All Departments</mat-option>
+        @for (dept of departments(); track dept.id) {
+          <mat-option [value]="dept.name">{{ dept.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-button-toggle-group
+      class="view-toggle"
+      aria-label="Layout"
+      hideSingleSelectionIndicator
+      [value]="view()"
+      (change)="setView($event.value)"
+    >
+      <mat-button-toggle value="table" aria-label="Table view">
+        <mat-icon class="icon-18">table_rows</mat-icon>
+        <span class="toggle-label">Table</span>
+      </mat-button-toggle>
+      <mat-button-toggle value="cards" aria-label="Card view">
+        <mat-icon class="icon-18">grid_view</mat-icon>
+        <span class="toggle-label">Cards</span>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</div>
+
+@if (loading()) {
+  <app-loading-skeleton
+    label="Loading employees…"
+    [variant]="view()"
+    [count]="view() === 'table' ? 5 : 8"
+  />
+} @else if (error()) {
+  <app-empty-state class="card" icon="error" title="Something went wrong" [message]="error() ?? ''">
+    <button mat-stroked-button type="button" (click)="load()">
+      <mat-icon>refresh</mat-icon>
+      Retry
+    </button>
+  </app-empty-state>
+} @else if (!employees().length) {
+  <app-empty-state
+    class="card"
+    icon="group"
+    title="No employees yet"
+    message="Add your first team member to get started."
+  >
+    <a mat-flat-button routerLink="/employees/new">
+      <mat-icon>add</mat-icon>
+      Add Employee
+    </a>
+  </app-empty-state>
+} @else if (!sorted().length) {
+  <app-empty-state
+    class="card"
+    icon="search_off"
+    title="No employees found"
+    message="Try a different name, ID or department."
+  >
+    <button mat-stroked-button type="button" (click)="clearFilters()">Clear filters</button>
+  </app-empty-state>
+} @else if (view() === 'table') {
+  <app-employee-table
+    [employees]="paged()"
+    [sort]="sort()"
+    [total]="sorted().length"
+    [pageIndex]="currentPageIndex()"
+    [pageSize]="pageSize()"
+    [pageSizeOptions]="pageSizeOptions"
+    [compact]="compact()"
+    (sortChange)="sort.set($event)"
+    (pageChange)="onPage($event)"
+    (view)="open($event)"
+    (edit)="edit($event)"
+    (delete)="confirmDelete($event)"
+  />
+} @else {
+  <div class="card-grid" role="list" aria-label="Employees">
+    @for (employee of paged(); track employee.id) {
+      <app-employee-card
+        [employee]="employee"
+        (view)="open($event)"
+        (edit)="edit($event)"
+        (delete)="confirmDelete($event)"
+      />
+    }
+  </div>
+  <mat-paginator
+    class="card cards-paginator"
+    aria-label="Employee pages"
+    [length]="sorted().length"
+    [pageIndex]="currentPageIndex()"
+    [pageSize]="pageSize()"
+    [pageSizeOptions]="pageSizeOptions"
+    [hidePageSize]="compact()"
+    [showFirstLastButtons]="!compact()"
+    (page)="onPage($event)"
+  />
+}

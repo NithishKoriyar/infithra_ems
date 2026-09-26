@@ -1,0 +1,26 @@
+<mat-sidenav-container class="shell">
+  <mat-sidenav
+    id="app-sidebar"
+    class="sidenav"
+    [class.sidenav--drawer]="isMobile()"
+    [mode]="isMobile() ? 'over' : 'side'"
+    [opened]="sidebarOpen()"
+    [disableClose]="!isMobile()"
+    (openedChange)="sidebarOpen.set($event)"
+  >
+    <app-sidebar [showClose]="isMobile()" (closeSidebar)="sidebarOpen.set(false)" />
+  </mat-sidenav>
+
+  <mat-sidenav-content class="content">
+    <div class="panel" [class.panel--solo]="!sidebarOpen()">
+      <app-top-bar
+        [sidebarOpen]="sidebarOpen()"
+        [isMobile]="isMobile()"
+        (toggleSidebar)="toggleSidebar()"
+      />
+      <main class="page">
+        <router-outlet />
+      </main>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

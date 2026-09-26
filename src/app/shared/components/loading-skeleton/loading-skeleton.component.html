@@ -1,0 +1,47 @@
+<span class="sr-only">{{ label() }}</span>
+
+@if (variant() === 'table') {
+  <div class="card table" aria-hidden="true">
+    <div class="table-head">
+      <span class="bar w-80"></span>
+      <span class="bar w-56"></span>
+      <span class="bar w-64"></span>
+      <span class="bar w-72"></span>
+      <span class="bar w-64"></span>
+      <span class="bar w-48"></span>
+    </div>
+    @for (item of items(); track item) {
+      <div class="table-row">
+        <span class="who">
+          <span class="bar circle-32"></span>
+          <span class="stack">
+            <span class="bar w-112"></span>
+            <span class="bar w-140 thin"></span>
+          </span>
+        </span>
+        <span class="bar w-56"></span>
+        <span class="bar w-64"></span>
+        <span class="bar w-96"></span>
+        <span class="bar w-80"></span>
+        <span class="bar pill"></span>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="card-grid" aria-hidden="true">
+    @for (item of items(); track item) {
+      <div class="card tile">
+        <span class="who">
+          <span class="bar circle-48"></span>
+          <span class="stack">
+            <span class="bar w-112"></span>
+            <span class="bar w-56 thin"></span>
+          </span>
+        </span>
+        <span class="bar w-140 thin"></span>
+        <span class="bar w-112 thin"></span>
+        <span class="tile-foot"><span class="bar pill"></span></span>
+      </div>
+    }
+  </div>
+}

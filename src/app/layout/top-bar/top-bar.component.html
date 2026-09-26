@@ -1,0 +1,105 @@
+<header class="top-bar">
+  <div class="top-bar-start">
+    @if (isMobile()) {
+      <button
+        mat-icon-button
+        type="button"
+        aria-label="Open navigation"
+        aria-controls="app-sidebar"
+        [attr.aria-expanded]="sidebarOpen()"
+        (click)="toggleSidebar.emit()"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <app-logo />
+    } @else {
+      <button
+        mat-icon-button
+        type="button"
+        aria-controls="app-sidebar"
+        [attr.aria-label]="sidebarOpen() ? 'Collapse sidebar' : 'Expand sidebar'"
+        [attr.aria-expanded]="sidebarOpen()"
+        (click)="toggleSidebar.emit()"
+      >
+        <mat-icon>{{ sidebarOpen() ? 'left_panel_close' : 'left_panel_open' }}</mat-icon>
+      </button>
+      <span class="divider" aria-hidden="true"></span>
+      <app-breadcrumb class="breadcrumb" />
+    }
+  </div>
+
+  <div class="top-bar-end">
+    <button
+      mat-icon-button
+      class="icon-btn-outlined"
+      type="button"
+      [attr.aria-label]="theme.isDark() ? 'Switch to light theme' : 'Switch to dark theme'"
+      (click)="theme.toggle()"
+    >
+      <mat-icon>{{ theme.isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+    </button>
+
+    <button
+      mat-icon-button
+      class="icon-btn-outlined"
+      type="button"
+      [attr.aria-label]="
+        unreadCount() ? 'Notifications, ' + unreadCount() + ' unread' : 'Notifications'
+      "
+      [matBadge]="unreadCount()"
+      [matBadgeHidden]="unreadCount() === 0"
+      [matMenuTriggerFor]="notificationsMenu"
+    >
+      <mat-icon>notifications</mat-icon>
+    </button>
+
+    <button
+      mat-icon-button
+      class="icon-btn-sm avatar-trigger"
+      type="button"
+      [attr.aria-label]="'Account menu for ' + user.name"
+      [matMenuTriggerFor]="userMenu.menu()"
+    >
+      <span class="avatar">{{ user.initials }}</span>
+    </button>
+  </div>
+</header>
+
+<mat-menu #notificationsMenu="matMenu" class="menu-wide" xPosition="before">
+  <!-- Clicks on the header itself shouldn't close the menu. -->
+  <div class="notifications-head" (click)="$event.stopPropagation()">
+    <span class="notifications-title">Notifications</span>
+    <button
+      mat-menu-item
+      type="button"
+      class="mark-all"
+      [disabled]="unreadCount() === 0"
+      (click)="markAllRead($event)"
+    >
+      Mark all as read
+    </button>
+  </div>
+  @for (notification of notifications(); track notification.id) {
+    <button mat-menu-item type="button" class="notification" (click)="markRead(notification.id)">
+      <span class="notification-row">
+        <span
+          class="notification-icon"
+          [class.notification-icon--danger]="notification.tone === 'danger'"
+          [class.notification-icon--warning]="notification.tone === 'warning'"
+          aria-hidden="true"
+        >
+          <mat-icon class="icon-18">{{ notification.icon }}</mat-icon>
+        </span>
+        <span class="notification-body">
+          <span class="notification-text">{{ notification.text }}</span>
+          <span class="notification-time">{{ notification.time }}</span>
+        </span>
+        @if (notification.unread) {
+          <span class="unread-dot"><span class="sr-only">Unread</span></span>
+        }
+      </span>
+    </button>
+  }
+</mat-menu>
+
+<app-user-menu #userMenu [showIdentity]="true" />

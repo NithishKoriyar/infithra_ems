@@ -1,0 +1,46 @@
+<div class="sidebar-head">
+  <app-logo />
+  @if (showClose()) {
+    <button
+      mat-icon-button
+      type="button"
+      aria-label="Close navigation"
+      (click)="closeSidebar.emit()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  }
+</div>
+
+<nav class="nav" aria-label="Main">
+  @for (item of navItems; track item.path) {
+    <a
+      class="nav-item"
+      [routerLink]="item.path"
+      routerLinkActive="nav-item--active"
+      ariaCurrentWhenActive="page"
+    >
+      <mat-icon>{{ item.icon }}</mat-icon>
+      <span>{{ item.label }}</span>
+    </a>
+  }
+</nav>
+
+<div class="user-card">
+  <span class="avatar" aria-hidden="true">{{ user.initials }}</span>
+  <div class="user-text">
+    <span class="user-name truncate">{{ user.name }}</span>
+    <span class="user-email truncate">{{ user.email }}</span>
+  </div>
+  <button
+    mat-icon-button
+    class="icon-btn-sm user-more"
+    type="button"
+    aria-label="Account options"
+    [matMenuTriggerFor]="userMenu.menu()"
+  >
+    <mat-icon>more_vert</mat-icon>
+  </button>
+</div>
+
+<app-user-menu #userMenu xPosition="after" yPosition="above" />

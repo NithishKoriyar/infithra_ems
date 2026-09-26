@@ -1,0 +1,36 @@
+@let e = employee();
+
+<div class="top">
+  <span class="avatar avatar--48" aria-hidden="true">
+    @if (e.photoUrl) {
+      <img [src]="e.photoUrl" alt="" />
+    } @else {
+      {{ name() | initials }}
+    }
+  </span>
+  <div class="identity">
+    <a class="name truncate" [routerLink]="['/employees', e.id]">{{ name() }}</a>
+    <span class="id">{{ e.employeeId }}</span>
+  </div>
+</div>
+
+<app-employee-action-menu
+  class="menu"
+  [name]="name()"
+  (view)="view.emit(e)"
+  (edit)="edit.emit(e)"
+  (delete)="delete.emit(e)"
+/>
+
+<div class="line">
+  <mat-icon class="icon-16">work</mat-icon>
+  <span class="truncate">{{ e.designation }} · {{ e.department }}</span>
+</div>
+<div class="line">
+  <mat-icon class="icon-16">calendar_today</mat-icon>
+  <span>Joined {{ e.joiningDate | date: 'dd MMM yyyy' }}</span>
+</div>
+
+<div class="foot">
+  <app-employee-status-badge [status]="e.status" />
+</div>

@@ -1,0 +1,46 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.crumbs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.crumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.crumb-link {
+  border-radius: 4px;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: color 0.15s;
+
+  &:hover {
+    color: var(--text);
+  }
+}
+
+.crumb-separator {
+  flex: none;
+  color: var(--muted);
+}
+
+.crumb-current {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--text);
+  font-weight: 500;
+}

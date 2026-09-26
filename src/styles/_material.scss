@@ -1,0 +1,621 @@
+@use '@angular/material' as mat;
+
+// Flat, minimal restyle of Angular Material. Everything points at design tokens, so both themes
+// follow automatically. `:root` outranks the `html` selector that carries `mat.theme()`, so these
+// overrides win regardless of source order.
+
+:root {
+  @include mat.theme-overrides(
+    (
+      primary: var(--accent),
+      on-primary: var(--accent-fg),
+      surface: var(--card),
+      surface-container-low: var(--card),
+      surface-container: var(--pop),
+      surface-container-high: var(--pop),
+      on-surface: var(--text),
+      on-surface-variant: var(--muted),
+      outline: var(--border),
+      outline-variant: var(--border),
+      error: var(--danger),
+    )
+  );
+
+  @include mat.sidenav-overrides(
+    (
+      container-width: 260px,
+      container-shape: 0,
+      container-elevation-shadow: none,
+      container-divider-color: transparent,
+      container-background-color: var(--side),
+      container-text-color: var(--text),
+      content-background-color: var(--side),
+      content-text-color: var(--text),
+      scrim-color: var(--overlay),
+    )
+  );
+
+  @include mat.menu-overrides(
+    (
+      container-shape: var(--radius-md),
+      container-color: var(--pop),
+      container-elevation-shadow: var(--shadow),
+      divider-color: var(--border),
+      divider-top-spacing: 4px,
+      divider-bottom-spacing: 4px,
+      item-label-text-color: var(--text),
+      item-label-text-font: var(--font-sans),
+      item-label-text-size: 14px,
+      item-label-text-weight: 400,
+      item-label-text-line-height: 20px,
+      item-label-text-tracking: normal,
+      item-icon-color: var(--muted),
+      item-icon-size: 20px,
+      item-spacing: 10px,
+      item-leading-spacing: 10px,
+      item-trailing-spacing: 10px,
+      item-with-icon-leading-spacing: 10px,
+      item-with-icon-trailing-spacing: 10px,
+      item-hover-state-layer-color: var(--hover),
+      item-focus-state-layer-color: var(--hover),
+    )
+  );
+
+  @include mat.button-overrides(
+    (
+      filled-container-height: 36px,
+      filled-container-shape: var(--radius-md),
+      filled-horizontal-padding: 14px,
+      filled-container-color: var(--accent),
+      filled-label-text-color: var(--accent-fg),
+      filled-state-layer-color: var(--accent-fg),
+      filled-label-text-font: var(--font-sans),
+      filled-label-text-size: 14px,
+      filled-label-text-weight: 500,
+      filled-label-text-tracking: normal,
+      filled-touch-target-display: none,
+      outlined-container-height: 36px,
+      outlined-container-shape: var(--radius-md),
+      outlined-horizontal-padding: 14px,
+      outlined-outline-color: var(--border),
+      outlined-label-text-color: var(--text),
+      outlined-state-layer-color: var(--text),
+      outlined-label-text-font: var(--font-sans),
+      outlined-label-text-size: 14px,
+      outlined-label-text-weight: 500,
+      outlined-label-text-tracking: normal,
+      outlined-touch-target-display: none,
+      text-container-height: 36px,
+      text-container-shape: var(--radius-md),
+      text-horizontal-padding: 14px,
+      text-label-text-color: var(--text),
+      text-state-layer-color: var(--text),
+      text-label-text-font: var(--font-sans),
+      text-label-text-size: 14px,
+      text-label-text-weight: 500,
+      text-label-text-tracking: normal,
+      text-touch-target-display: none,
+    )
+  );
+
+  @include mat.icon-button-overrides(
+    (
+      state-layer-size: 36px,
+      icon-size: 20px,
+      container-shape: var(--radius-md),
+      icon-color: var(--text),
+      state-layer-color: var(--text),
+      hover-state-layer-opacity: 0.06,
+      focus-state-layer-opacity: 0.08,
+      pressed-state-layer-opacity: 0.1,
+      touch-target-display: none,
+    )
+  );
+
+  @include mat.badge-overrides(
+    (
+      background-color: var(--danger-fill),
+      text-color: var(--danger-fg),
+      text-font: var(--font-sans),
+      text-size: 11px,
+      text-weight: 600,
+      line-height: 14px,
+      container-size: 18px,
+      container-padding: 0 4px,
+      container-shape: var(--radius-full),
+      // With an 18px badge this lands it at top/right -6px of its host.
+      container-overlap-offset: -12px,
+    )
+  );
+
+  @include mat.snack-bar-overrides(
+    (
+      container-shape: 10px,
+      container-color: var(--pop),
+      supporting-text-color: var(--text),
+      supporting-text-font: var(--font-sans),
+      supporting-text-size: 14px,
+      supporting-text-weight: 500,
+      supporting-text-line-height: 20px,
+      button-color: var(--muted),
+    )
+  );
+}
+
+:root {
+  // Icons inside text buttons: 8px gap, no negative offset.
+  @include mat.button-overrides(
+    (
+      filled-icon-spacing: 8px,
+      filled-icon-offset: 0,
+      outlined-icon-spacing: 8px,
+      outlined-icon-offset: 0,
+      text-icon-spacing: 8px,
+      text-icon-offset: 0,
+    )
+  );
+
+  // Inputs: 36px, 1px border, 8px radius, accent border on focus (ring added below).
+  @include mat.form-field-overrides(
+    (
+      container-height: 36px,
+      container-vertical-padding: 8px,
+      outlined-container-shape: var(--radius-md),
+      outlined-outline-width: 1px,
+      outlined-focus-outline-width: 1px,
+      outlined-outline-color: var(--border),
+      outlined-hover-outline-color: var(--border),
+      outlined-focus-outline-color: var(--accent),
+      outlined-disabled-outline-color: var(--border),
+      outlined-error-outline-color: var(--danger),
+      outlined-error-hover-outline-color: var(--danger),
+      outlined-error-focus-outline-color: var(--danger),
+      outlined-input-text-color: var(--text),
+      outlined-input-text-placeholder-color: var(--muted),
+      outlined-caret-color: var(--accent),
+      outlined-error-caret-color: var(--danger),
+      outlined-label-text-color: var(--muted),
+      outlined-hover-label-text-color: var(--muted),
+      outlined-focus-label-text-color: var(--accent),
+      leading-icon-color: var(--muted),
+      trailing-icon-color: var(--muted),
+      enabled-select-arrow-color: var(--muted),
+      focus-select-arrow-color: var(--muted),
+      error-text-color: var(--danger-text),
+      select-option-text-color: var(--text),
+      container-text-font: var(--font-sans),
+      container-text-size: 14px,
+      container-text-line-height: 20px,
+      container-text-weight: 400,
+      container-text-tracking: normal,
+      subscript-text-font: var(--font-sans),
+      subscript-text-size: 12px,
+      subscript-text-line-height: 16px,
+      subscript-text-weight: 400,
+      subscript-text-tracking: normal,
+    )
+  );
+
+  @include mat.select-overrides(
+    (
+      panel-background-color: var(--pop),
+      container-elevation-shadow: var(--shadow),
+      enabled-trigger-text-color: var(--text),
+      placeholder-text-color: var(--muted),
+      enabled-arrow-color: var(--muted),
+      focused-arrow-color: var(--muted),
+      invalid-arrow-color: var(--danger),
+      trigger-text-font: var(--font-sans),
+      trigger-text-size: 14px,
+      trigger-text-line-height: 20px,
+      trigger-text-weight: 400,
+      trigger-text-tracking: normal,
+    )
+  );
+
+  @include mat.option-overrides(
+    (
+      label-text-color: var(--text),
+      selected-state-label-text-color: var(--text),
+      hover-state-layer-color: var(--hover),
+      focus-state-layer-color: var(--hover),
+      selected-state-layer-color: transparent,
+      label-text-font: var(--font-sans),
+      label-text-size: 14px,
+      label-text-line-height: 20px,
+      label-text-weight: 400,
+      label-text-tracking: normal,
+    )
+  );
+
+  @include mat.pseudo-checkbox-overrides(
+    (
+      minimal-selected-checkmark-color: var(--accent),
+    )
+  );
+
+  // Segmented control: 36px outer, 28px segments.
+  @include mat.button-toggle-overrides(
+    (
+      height: 28px,
+      shape: var(--radius-md),
+      divider-color: transparent,
+      background-color: transparent,
+      text-color: var(--muted),
+      selected-state-background-color: var(--hover),
+      selected-state-text-color: var(--text),
+      state-layer-color: var(--text),
+      hover-state-layer-opacity: 0.04,
+      focus-state-layer-opacity: 0.08,
+      label-text-font: var(--font-sans),
+      label-text-size: 13px,
+      label-text-line-height: 28px,
+      label-text-weight: 500,
+      label-text-tracking: normal,
+    )
+  );
+
+  @include mat.table-overrides(
+    (
+      background-color: transparent,
+      header-container-height: 44px,
+      header-headline-color: var(--muted),
+      header-headline-font: var(--font-sans),
+      header-headline-size: 13px,
+      header-headline-line-height: 18px,
+      header-headline-weight: 500,
+      header-headline-tracking: normal,
+      row-item-container-height: 56px,
+      row-item-label-text-color: var(--text),
+      row-item-label-text-font: var(--font-sans),
+      row-item-label-text-size: 14px,
+      row-item-label-text-line-height: 20px,
+      row-item-label-text-weight: 400,
+      row-item-label-text-tracking: normal,
+      row-item-outline-color: var(--border),
+      row-item-outline-width: 1px,
+    )
+  );
+
+  @include mat.sort-overrides(
+    (
+      arrow-color: var(--muted),
+    )
+  );
+
+  @include mat.paginator-overrides(
+    (
+      container-background-color: transparent,
+      container-text-color: var(--muted),
+      container-text-font: var(--font-sans),
+      container-text-size: 13px,
+      container-text-line-height: 18px,
+      container-text-weight: 400,
+      container-text-tracking: normal,
+      select-trigger-text-size: 13px,
+      enabled-icon-color: var(--text),
+      disabled-icon-color: var(--muted),
+      container-size: 56px,
+      form-field-container-height: 32px,
+      form-field-container-vertical-padding: 6px,
+      page-size-select-width: 72px,
+      touch-target-display: none,
+    )
+  );
+
+  @include mat.dialog-overrides(
+    (
+      container-color: var(--card),
+      container-shape: var(--radius-lg),
+      container-elevation-shadow: var(--shadow),
+      container-max-width: calc(100vw - 32px),
+      container-small-max-width: calc(100vw - 32px),
+      subhead-color: var(--text),
+      subhead-font: var(--font-sans),
+      subhead-size: 18px,
+      subhead-line-height: 26px,
+      subhead-weight: 600,
+      subhead-tracking: normal,
+      supporting-text-color: var(--muted),
+      supporting-text-font: var(--font-sans),
+      supporting-text-size: 14px,
+      supporting-text-line-height: 20px,
+      supporting-text-weight: 400,
+      supporting-text-tracking: normal,
+      headline-padding: 24px 24px 0,
+      with-actions-content-padding: 8px 24px 0,
+      content-padding: 8px 24px 24px,
+      actions-padding: 24px,
+      actions-alignment: flex-end,
+    )
+  );
+}
+
+// Icons: Material Symbols Outlined, weight 300, 20px unless a size class says otherwise.
+.mat-icon.material-symbols-outlined {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  line-height: 1;
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 300,
+    'GRAD' 0,
+    'opsz' 20;
+}
+
+.mat-icon.icon-16 {
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+}
+
+.mat-icon.icon-18 {
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+}
+
+// Buttons
+.btn-danger {
+  @include mat.button-overrides(
+    (
+      filled-container-color: var(--danger-fill),
+      filled-label-text-color: var(--danger-fg),
+    )
+  );
+}
+
+.icon-btn-sm {
+  @include mat.icon-button-overrides(
+    (
+      state-layer-size: 32px,
+    )
+  );
+}
+
+// 36px square outlined icon button used in the header.
+.mat-mdc-icon-button.icon-btn-outlined {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--border);
+
+  &[aria-expanded='true'] {
+    background-color: var(--hover);
+  }
+}
+
+.mat-mdc-button-base:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+// Menus
+.cdk-overlay-pane .mat-mdc-menu-panel {
+  min-width: 180px;
+  border: 1px solid var(--border);
+}
+
+.cdk-overlay-pane .mat-mdc-menu-panel.menu-wide {
+  width: 380px;
+  max-width: calc(100vw - 16px);
+}
+
+// On phones the overlay pushes wide menus flush against the viewport edge; keep an 8px gutter.
+@media (max-width: 479.98px) {
+  .cdk-overlay-pane .mat-mdc-menu-panel.menu-wide {
+    margin-left: 8px;
+  }
+}
+
+.mat-mdc-menu-panel .mat-mdc-menu-content {
+  padding: 4px;
+}
+
+.mat-mdc-menu-panel .mat-mdc-menu-item {
+  min-height: 36px;
+  border-radius: var(--radius-sm);
+}
+
+.mat-mdc-menu-panel .mat-divider {
+  margin-inline: -4px;
+}
+
+// Badge: ring in the panel colour so it reads as cut out of the button border.
+.mat-badge-content {
+  border: 2px solid var(--panel);
+}
+
+// Snack bar: flat card, bottom-right, 24px from the edges.
+.mat-mdc-snack-bar-container.app-toast {
+  margin: 24px;
+
+  .mat-mdc-snackbar-surface {
+    min-width: 320px;
+    padding: 0;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+
+  .mdc-snackbar__label {
+    padding: 0;
+  }
+}
+
+@media (max-width: 599.98px) {
+  .mat-mdc-snack-bar-container.app-toast {
+    margin: 16px;
+  }
+}
+
+.mat-icon.icon-24 {
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
+}
+
+// Destructive menu item (e.g. Delete), shown in red.
+.mat-mdc-menu-item.menu-item-danger,
+.mat-mdc-menu-item.menu-item-danger .mat-icon {
+  color: var(--danger-text);
+}
+
+// Form fields
+.mat-mdc-form-field .mdc-text-field--outlined {
+  padding-inline: 12px;
+}
+
+// Leading icon: 12px from the edge, 8px before the text.
+.mat-mdc-form-field .mat-mdc-form-field-icon-prefix {
+  padding: 0;
+}
+
+.mat-mdc-form-field .mat-mdc-form-field-icon-prefix > .mat-icon {
+  padding: 0 8px 0 12px;
+}
+
+// Select trigger is 24px by default, which makes a select taller than a text input.
+.mat-mdc-form-field .mat-mdc-select-trigger,
+.mat-mdc-form-field .mat-mdc-select-arrow-wrapper {
+  height: 20px;
+}
+
+.mat-mdc-form-field .mat-mdc-form-field-icon-suffix {
+  margin-right: -8px;
+}
+
+.mat-mdc-form-field .mdc-notched-outline {
+  border-radius: var(--radius-md);
+  transition: box-shadow 0.15s;
+}
+
+.mat-mdc-form-field.mat-focused .mdc-notched-outline {
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+.mat-mdc-form-field.mat-focused.mat-form-field-invalid .mdc-notched-outline {
+  box-shadow: 0 0 0 3px var(--ring-danger);
+}
+
+// Search inputs use the form field's own clear button.
+.mat-mdc-form-field input[type='search']::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+// Select panel: flat card with 36px options.
+.cdk-overlay-pane .mat-mdc-select-panel {
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.mat-mdc-select-panel .mat-mdc-option {
+  min-height: 36px;
+  padding: 0 8px;
+  border-radius: var(--radius-sm);
+}
+
+// Segmented control (mat-button-toggle-group, standard appearance).
+.mat-button-toggle-group.mat-button-toggle-group-appearance-standard {
+  gap: 2px;
+  padding: 3px;
+  border-color: var(--border);
+}
+
+.mat-button-toggle-group-appearance-standard .mat-button-toggle {
+  border-radius: var(--radius-sm);
+}
+
+// The inline-block button would sit on a text baseline, adding 4px below each segment.
+.mat-button-toggle-group .mat-button-toggle-button {
+  display: block;
+}
+
+.mat-button-toggle-group .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+  display: flex;
+  // Keeps icon-only segments as tall as labelled ones.
+  min-height: var(--mat-button-toggle-height);
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+}
+
+// Table: last row sits on the card edge (or the paginator's border).
+.mat-mdc-table .mat-mdc-row:last-child .mat-mdc-cell {
+  border-bottom: 0;
+}
+
+// Paginator: 32px outlined page buttons, range on the right, page size on the left.
+.mat-mdc-paginator {
+  @include mat.icon-button-overrides(
+    (
+      state-layer-size: 32px,
+      icon-size: 18px,
+    )
+  );
+
+  .mat-mdc-paginator-container {
+    justify-content: space-between;
+    gap: 8px 16px;
+    padding: 0 16px;
+  }
+
+  .mat-mdc-paginator-page-size {
+    margin-right: 0;
+  }
+
+  .mat-mdc-paginator-range-actions {
+    gap: 4px;
+  }
+
+  .mat-mdc-paginator-range-label {
+    margin: 0 12px 0 0;
+  }
+
+  // Page size hidden (compact): range on the left, buttons on the right.
+  .mat-mdc-paginator-container:not(:has(.mat-mdc-paginator-page-size)) {
+    .mat-mdc-paginator-range-actions {
+      flex: 1;
+    }
+
+    .mat-mdc-paginator-range-label {
+      margin-right: auto;
+    }
+  }
+
+  .mat-mdc-icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid var(--border);
+  }
+
+  .mat-mdc-icon-button[disabled] {
+    opacity: 0.4;
+  }
+
+  .mat-mdc-paginator-icon {
+    width: 18px;
+  }
+}
+
+// Dialogs: flat card with a 1px border over a dimmed backdrop.
+.mat-mdc-dialog-container .mat-mdc-dialog-surface {
+  border: 1px solid var(--border);
+}
+
+.mat-mdc-dialog-container .mat-mdc-dialog-title::before {
+  display: none;
+}
+
+.mat-mdc-dialog-container .mat-mdc-dialog-actions {
+  gap: 8px;
+  min-height: 0;
+}
+
+.cdk-overlay-backdrop.cdk-overlay-dark-backdrop {
+  background: var(--overlay);
+}

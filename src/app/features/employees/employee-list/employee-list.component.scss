@@ -1,0 +1,87 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  // Lets the card grid respond to the space the list actually has (sidebar open or not).
+  container-type: inline-size;
+}
+
+.header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search {
+  width: 320px;
+}
+
+.clear {
+  color: var(--muted);
+}
+
+.toolbar-row {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.department {
+  width: 200px;
+}
+
+.view-toggle {
+  flex: none;
+  margin-left: auto;
+}
+
+.cards-paginator {
+  display: block;
+  overflow: hidden;
+}
+
+@media (max-width: 767.98px) {
+  :host {
+    gap: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  // Both buttons full width, side by side.
+  .header-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search {
+    width: 100%;
+  }
+
+  .department {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+  }
+
+  // Icon-only toggle; each segment keeps its aria-label.
+  .toggle-label {
+    display: none;
+  }
+}

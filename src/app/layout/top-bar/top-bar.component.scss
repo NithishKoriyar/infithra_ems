@@ -1,0 +1,143 @@
+:host {
+  display: block;
+  flex: none;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 64px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.top-bar-start {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.divider {
+  flex: none;
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+}
+
+.breadcrumb {
+  min-width: 0;
+}
+
+.top-bar-end {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.avatar-trigger {
+  padding: 0;
+  border-radius: var(--radius-full);
+}
+
+@media (max-width: 1023.98px) {
+  .top-bar {
+    gap: 8px;
+    height: 56px;
+    padding: 0 12px;
+  }
+
+  .top-bar-start {
+    gap: 4px;
+  }
+}
+
+// Notifications menu content (rendered in the overlay, but still scoped to this component).
+.notifications-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 4px 6px 10px;
+}
+
+.notifications-title {
+  font-weight: 600;
+}
+
+.mark-all {
+  width: auto;
+  min-height: 28px;
+  padding: 0 6px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 500;
+
+  &[disabled] {
+    color: var(--muted);
+  }
+}
+
+.notification {
+  align-items: flex-start;
+  padding: 10px;
+}
+
+.notification-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.notification-icon {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--panel);
+  color: var(--muted);
+
+  &--warning {
+    color: var(--badge-orange-fg);
+  }
+
+  &--danger {
+    color: var(--badge-red-fg);
+  }
+
+  // Menu items force their own icon colour; take the tone from this wrapper instead.
+  .mat-icon {
+    color: inherit;
+  }
+}
+
+.notification-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.notification-time {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.unread-dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-top: 6px;
+  border-radius: var(--radius-full);
+  background: var(--accent);
+}
