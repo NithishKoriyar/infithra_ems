@@ -26,7 +26,8 @@ function labels(breadcrumb: HTMLElement): string[] {
   );
 }
 
-describe('BreadcrumbComponent', () => {
+// Each test boots the real routes, including the lazy employee pages, which can exceed the 5s default.
+describe('BreadcrumbComponent', { timeout: 20_000 }, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
