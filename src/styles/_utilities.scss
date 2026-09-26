@@ -1,3 +1,27 @@
+// Thin, neutral scrollbars everywhere. Standard properties first; WebKit fallback for browsers
+// without `scrollbar-color` (Safari).
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar) transparent;
+}
+
+@supports not (scrollbar-color: auto) {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: var(--radius-full);
+    background: var(--scrollbar) padding-box;
+  }
+}
+
 .muted {
   color: var(--muted);
 }

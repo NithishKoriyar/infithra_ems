@@ -499,6 +499,18 @@
   box-shadow: 0 0 0 3px var(--ring-danger);
 }
 
+// A select gets focus back after a mouse pick, which would leave it looking active. Selects only
+// look focused while their panel is open or when focus came from the keyboard.
+.mat-mdc-form-field-type-mat-select.mat-focused:not(
+    :has(.mat-select-open, .mat-mdc-select:focus-visible)
+  ) {
+  --mat-form-field-outlined-focus-outline-color: var(--border);
+
+  .mdc-notched-outline {
+    box-shadow: none;
+  }
+}
+
 // Search inputs use the form field's own clear button.
 .mat-mdc-form-field input[type='search']::-webkit-search-cancel-button {
   appearance: none;
@@ -545,6 +557,38 @@
 // Table: last row sits on the card edge (or the paginator's border).
 .mat-mdc-table .mat-mdc-row:last-child .mat-mdc-cell {
   border-bottom: 0;
+}
+
+// Sort arrows are always visible: faint on unsorted columns, full strength on the sorted one.
+// Extra `.mat-mdc-table` outranks Material's own hover/sorted rules.
+.mat-mdc-table .mat-sort-header .mat-sort-header-arrow {
+  color: var(--muted);
+  opacity: 0.5;
+}
+
+.mat-mdc-table .mat-sort-header .mat-sort-header-container:not(.mat-sort-header-sorted) {
+  // Material rotates every arrow with the table's current direction; an unsorted column instead
+  // points the way its first click sorts (`start` on the header).
+  .mat-sort-header-arrow {
+    transform: none;
+  }
+}
+
+.mat-mdc-table
+  .mat-sort-header[start='desc']
+  .mat-sort-header-container:not(.mat-sort-header-sorted) {
+  .mat-sort-header-arrow {
+    transform: rotate(180deg);
+  }
+}
+
+.mat-mdc-table .mat-sort-header:hover .mat-sort-header-arrow {
+  opacity: 0.8;
+}
+
+.mat-mdc-table .mat-sort-header .mat-sort-header-sorted .mat-sort-header-arrow {
+  color: var(--text);
+  opacity: 1;
 }
 
 // Paginator: 32px outlined page buttons, range on the right, page size on the left.

@@ -63,7 +63,6 @@ const SEARCH_DEBOUNCE_MS = 300;
   ],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.scss',
-  host: { '[class.fit-height]': "view() === 'table'" },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmployeeListComponent {

@@ -1,30 +1,25 @@
-// Grows with its rows up to the space the list gives it; past that only the rows scroll and the
-// paginator stays in view. The floor keeps the header, two rows and the paginator on short screens.
+// The card grows with its rows; the page's content area does the vertical scrolling.
 :host {
-  display: flex;
-  flex-direction: column;
-  min-height: 220px;
+  display: block;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--card);
 }
 
-// Scrolls vertically when constrained, and sideways on narrow screens instead of squashing columns.
+// Scrolls sideways on narrow screens instead of squashing columns.
 .scroll {
-  flex: 0 1 auto;
-  min-height: 0;
-  overflow: auto;
-}
-
-// Sticky header needs a solid background so rows don't show through it.
-th.mat-mdc-header-cell {
-  background: var(--card);
+  overflow-x: auto;
 }
 
 table {
   width: 100%;
   min-width: 860px;
+}
+
+th.mat-mdc-header-cell,
+td.mat-mdc-cell {
+  white-space: nowrap;
 }
 
 th[aria-sort='ascending'],
@@ -83,6 +78,5 @@ th[aria-sort='descending'] {
 }
 
 mat-paginator {
-  flex: none;
   border-top: 1px solid var(--border);
 }

@@ -45,7 +45,10 @@ body {
   background: var(--side);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: 'cv11';
+  // As in the design reference: Inter's tabular figures space IDs out ("E-1 0 0 7"), so they're off.
+  font-feature-settings:
+    'cv11',
+    'tnum' 0;
 }
 
 a {
