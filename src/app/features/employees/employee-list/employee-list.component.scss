@@ -6,6 +6,12 @@
   container-type: inline-size;
 }
 
+// Table view: fill the page's scroll area exactly, so a long table scrolls inside its card
+// instead of lengthening the page.
+:host:has(> app-employee-table) {
+  height: 100%;
+}
+
 .header-actions {
   display: flex;
   flex-wrap: wrap;
