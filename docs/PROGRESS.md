@@ -6,15 +6,18 @@ committed, and its box is ticked here. A fresh session continues from the first 
 
 - [x] **A — Employee List fixes:** card grows (page scrolls), thin scrollbars, page size 5/10/20,
       paginator select focus ring, plain employee IDs, always-visible sort arrows, re-check states.
-- [ ] **B — Add / Edit Employee form:** 3-step linear stepper, validators, documents FormArray,
+- [x] **B — Add / Edit Employee form:** 3-step linear stepper, validators, documents FormArray,
       photo upload, searchable nationality select, save flow, unsaved-changes guard.
-- [ ] **C — Employee Details:** header + profile completeness, tabs with `?tab=`, overview
+- [x] **C — Employee Details:** header + profile completeness, tabs with `?tab=`, overview
       accordion, documents grid + expiry pipe, activity timeline.
-- [ ] **D — Polish:** light mode, 390px mobile, accessibility, consistency, error toasts,
+- [ ] **D — Polish (skipped at the user's request):** light mode, 390px mobile, accessibility, consistency, error toasts,
       not-found page, cleanup and build warnings.
-- [ ] **E — README.md:** overview, stack, run/test, structure, architecture, UI checklist,
+- [x] **E — README.md:** overview, stack, run/test, structure, architecture, UI checklist,
       screenshots placeholders.
-- [ ] **F — Dashboard (optional):** stat cards, expiring-documents card, SVG department donut.
+- [ ] **F — Dashboard (optional, skipped):** stat cards, expiring-documents card, SVG department donut.
+
+The plan changed mid-way: the user asked to skip D and F and to add no new spec files.
+B and C were built as simplified versions; README.md lists what was skipped or simplified.
 
 ## Notes for a fresh session
 
