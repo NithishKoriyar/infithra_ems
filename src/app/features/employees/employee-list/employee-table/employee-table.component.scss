@@ -1,14 +1,25 @@
+// Grows with its rows up to the space the list gives it; past that only the rows scroll and the
+// paginator stays in view. The floor keeps the header, two rows and the paginator on short screens.
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--card);
 }
 
-// Narrow screens scroll the table sideways instead of squashing columns.
+// Scrolls vertically when constrained, and sideways on narrow screens instead of squashing columns.
 .scroll {
-  overflow-x: auto;
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow: auto;
+}
+
+// Sticky header needs a solid background so rows don't show through it.
+th.mat-mdc-header-cell {
+  background: var(--card);
 }
 
 table {
@@ -72,5 +83,6 @@ th[aria-sort='descending'] {
 }
 
 mat-paginator {
+  flex: none;
   border-top: 1px solid var(--border);
 }
