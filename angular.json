@@ -50,11 +50,14 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "db.json",
+                "input": "mock-api",
+                "output": "mock-api"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ]
+            "styles": ["src/styles.scss"]
           },
           "configurations": {
             "production": {
@@ -101,9 +104,7 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "setupFiles": [
-              "src/test-setup.ts"
-            ]
+            "setupFiles": ["src/test-setup.ts"]
           }
         }
       }
