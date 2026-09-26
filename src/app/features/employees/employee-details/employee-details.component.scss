@@ -1,0 +1,90 @@
+@use '@angular/material' as mat;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @include mat.tabs-overrides(
+    (
+      active-indicator-color: var(--text),
+      active-focus-indicator-color: var(--text),
+      active-hover-indicator-color: var(--text),
+      active-indicator-height: 2px,
+      active-label-text-color: var(--text),
+      active-focus-label-text-color: var(--text),
+      active-hover-label-text-color: var(--text),
+      inactive-label-text-color: var(--muted),
+      inactive-hover-label-text-color: var(--text),
+      inactive-focus-label-text-color: var(--text),
+      divider-color: var(--border),
+      divider-height: 1px,
+      container-height: 40px,
+      label-text-font: var(--font-sans),
+      label-text-size: 14px,
+      label-text-weight: 500,
+      label-text-tracking: normal,
+    )
+  );
+}
+
+.tab-body {
+  padding-top: 24px;
+}
+
+.count {
+  min-width: 18px;
+  height: 18px;
+  margin-left: 8px;
+  padding: 0 6px;
+  border-radius: var(--radius-full);
+  background: var(--hover);
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 18px;
+  text-align: center;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+}
+
+.skeleton-avatar {
+  flex: none;
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  background: var(--hover);
+}
+
+.skeleton-lines {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeleton-bar {
+  width: 40%;
+  height: 14px;
+  border-radius: var(--radius-sm);
+  background: var(--hover);
+}
+
+.skeleton-bar--wide {
+  width: 60%;
+  height: 20px;
+}
+
+@media (max-width: 767.98px) {
+  :host {
+    gap: 16px;
+  }
+
+  .tab-body {
+    padding-top: 16px;
+  }
+}

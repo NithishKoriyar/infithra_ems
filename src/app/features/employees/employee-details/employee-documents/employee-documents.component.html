@@ -1,0 +1,35 @@
+@if (documents().length) {
+  <div class="grid" role="list">
+    @for (doc of documents(); track doc.type) {
+      @let expiry = doc.expiryDate | documentExpiry;
+      @let b = badge(expiry);
+      <article class="doc" role="listitem">
+        <div class="doc-top">
+          <span class="doc-icon" aria-hidden="true"><mat-icon>description</mat-icon></span>
+          <span
+            class="badge"
+            [class]="b.tone"
+            [matTooltip]="tooltip(expiry)"
+            tabindex="0"
+            [attr.aria-label]="b.label + ', ' + tooltip(expiry)"
+            >{{ b.label }}</span
+          >
+        </div>
+        <div>
+          <h3 class="doc-title">{{ doc.type }} · {{ doc.number }}</h3>
+          <p class="doc-expiry">Expiry {{ doc.expiryDate | date: 'dd MMM yyyy' }}</p>
+        </div>
+        <div class="doc-file">
+          <mat-icon class="icon-16">attach_file</mat-icon>
+          <span class="truncate">{{ doc.fileName ?? 'No file uploaded' }}</span>
+        </div>
+      </article>
+    }
+  </div>
+} @else {
+  <app-empty-state
+    icon="folder_open"
+    title="No documents"
+    message="Visa, passport and Emirates ID copies will appear here."
+  />
+}

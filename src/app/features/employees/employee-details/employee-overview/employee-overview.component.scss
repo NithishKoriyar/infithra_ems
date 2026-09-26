@@ -1,0 +1,108 @@
+@use '@angular/material' as mat;
+
+:host {
+  display: block;
+
+  @include mat.expansion-overrides(
+    (
+      container-shape: var(--radius-lg),
+      container-background-color: var(--card),
+      container-text-color: var(--text),
+      container-elevation-shadow: none,
+      header-collapsed-state-height: 56px,
+      header-expanded-state-height: 56px,
+      header-text-color: var(--text),
+      header-text-font: var(--font-sans),
+      header-text-size: 15px,
+      header-text-weight: 500,
+      header-description-color: var(--muted),
+      header-indicator-color: var(--muted),
+      header-hover-state-layer-color: var(--row-hover),
+      header-focus-state-layer-color: var(--row-hover),
+    )
+  );
+
+  @include mat.chips-overrides(
+    (
+      outline-color: var(--border),
+      container-shape-radius: var(--radius-full),
+      label-text-color: var(--text),
+      label-text-size: 13px,
+      label-text-weight: 500,
+      container-height: 26px,
+    )
+  );
+}
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+mat-expansion-panel {
+  border: 1px solid var(--border);
+}
+
+mat-panel-title {
+  align-items: center;
+  gap: 12px;
+}
+
+mat-panel-description {
+  justify-content: flex-end;
+  font-size: 13px;
+}
+
+// The summary is only useful while the panel is closed.
+.mat-expanded mat-panel-description {
+  visibility: hidden;
+}
+
+.icon-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 48px;
+  margin: 0;
+  padding: 4px 0 8px 44px;
+}
+
+.kv--full {
+  grid-column: 1 / -1;
+}
+
+dt {
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+dd {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 767.98px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    padding-left: 0;
+  }
+
+  mat-panel-description {
+    display: none;
+  }
+}

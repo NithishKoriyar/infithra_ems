@@ -1,0 +1,102 @@
+@let e = employee();
+
+<mat-accordion multi displayMode="flat" class="accordion">
+  <mat-expansion-panel expanded>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <span class="icon-box"><mat-icon class="icon-18">person</mat-icon></span>
+        Personal
+      </mat-panel-title>
+      <mat-panel-description>{{ e.gender }} · {{ e.nationality }}</mat-panel-description>
+    </mat-expansion-panel-header>
+    <dl class="grid">
+      <div class="kv">
+        <dt>Date of birth</dt>
+        <dd>{{ e.dateOfBirth | date: 'dd MMM yyyy' }}</dd>
+      </div>
+      <div class="kv">
+        <dt>Gender</dt>
+        <dd>{{ e.gender }}</dd>
+      </div>
+      <div class="kv">
+        <dt>Nationality</dt>
+        <dd>{{ e.nationality }}</dd>
+      </div>
+      <div class="kv">
+        <dt>Email</dt>
+        <dd>{{ e.email }}</dd>
+      </div>
+      <div class="kv">
+        <dt>Mobile</dt>
+        <dd>{{ e.countryCode }} {{ e.mobile }}</dd>
+      </div>
+    </dl>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <span class="icon-box"><mat-icon class="icon-18">work</mat-icon></span>
+        Job
+      </mat-panel-title>
+      <mat-panel-description>{{ e.designation }} · {{ e.department }}</mat-panel-description>
+    </mat-expansion-panel-header>
+    <dl class="grid">
+      <div class="kv">
+        <dt>Department</dt>
+        <dd>{{ e.department }}</dd>
+      </div>
+      <div class="kv">
+        <dt>Designation</dt>
+        <dd>{{ e.designation }}</dd>
+      </div>
+      <div class="kv">
+        <dt>Joining date</dt>
+        <dd>{{ e.joiningDate | date: 'dd MMM yyyy' }}</dd>
+      </div>
+      <div class="kv">
+        <dt>Employment type</dt>
+        <dd>
+          {{ e.employmentType }}
+          @if (e.employmentType === 'Contract' && e.contractEndDate) {
+            · ends {{ e.contractEndDate | date: 'dd MMM yyyy' }}
+          }
+        </dd>
+      </div>
+      <div class="kv">
+        <dt>Shift</dt>
+        <dd>{{ e.shiftStart }} – {{ e.shiftEnd }}</dd>
+      </div>
+      <div class="kv kv--full">
+        <dt>Skills</dt>
+        <dd>
+          @if (e.skills.length) {
+            <mat-chip-set aria-label="Skills">
+              @for (skill of e.skills; track skill) {
+                <mat-chip [disableRipple]="true">{{ skill }}</mat-chip>
+              }
+            </mat-chip-set>
+          } @else {
+            <span class="muted">No skills added</span>
+          }
+        </dd>
+      </div>
+    </dl>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <span class="icon-box"><mat-icon class="icon-18">payments</mat-icon></span>
+        Salary
+      </mat-panel-title>
+      <mat-panel-description>AED {{ e.salary | number: '1.2-2' }} / month</mat-panel-description>
+    </mat-expansion-panel-header>
+    <dl class="grid">
+      <div class="kv">
+        <dt>Monthly salary</dt>
+        <dd>AED {{ e.salary | number: '1.2-2' }}</dd>
+      </div>
+    </dl>
+  </mat-expansion-panel>
+</mat-accordion>

@@ -331,6 +331,22 @@
   );
 }
 
+// Tooltips: inverted flat pill (light on dark, dark on light).
+:root {
+  @include mat.tooltip-overrides(
+    (
+      container-color: var(--tip-bg),
+      container-shape: var(--radius-sm),
+      supporting-text-color: var(--tip-fg),
+      supporting-text-font: var(--font-sans),
+      supporting-text-size: 12px,
+      supporting-text-weight: 500,
+      supporting-text-line-height: 16px,
+      supporting-text-tracking: normal,
+    )
+  );
+}
+
 // Icons: Material Symbols Outlined, weight 300, 20px unless a size class says otherwise.
 .mat-icon.material-symbols-outlined {
   width: 20px;

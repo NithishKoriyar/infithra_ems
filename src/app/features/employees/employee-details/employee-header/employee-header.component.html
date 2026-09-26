@@ -1,0 +1,41 @@
+@let e = employee();
+
+<div class="top">
+  <span class="avatar avatar--80" aria-hidden="true">
+    @if (e.photoUrl) {
+      <img [src]="e.photoUrl" alt="" />
+    } @else {
+      {{ name() | initials }}
+    }
+  </span>
+
+  <div class="identity">
+    <div class="name-row">
+      <h1 class="name">{{ name() }}</h1>
+      <app-employee-status-badge [status]="e.status" />
+    </div>
+    <p class="role">{{ e.designation }} · {{ e.department }} · {{ e.employeeId }}</p>
+    <div class="meta">
+      <span><mat-icon class="icon-16">mail</mat-icon>{{ e.email }}</span>
+      <span><mat-icon class="icon-16">call</mat-icon>{{ e.countryCode }} {{ e.mobile }}</span>
+      <span>
+        <mat-icon class="icon-16">calendar_today</mat-icon>
+        Joined {{ e.joiningDate | date: 'dd MMM yyyy' }}
+      </span>
+    </div>
+  </div>
+
+  <a mat-stroked-button class="edit" [routerLink]="['/employees', e.id, 'edit']">
+    <mat-icon>edit</mat-icon>
+    Edit
+  </a>
+</div>
+
+<div class="progress">
+  <span class="progress-label" id="profile-progress">Profile {{ completeness() }}% complete</span>
+  <mat-progress-bar
+    mode="determinate"
+    [value]="completeness()"
+    aria-labelledby="profile-progress"
+  />
+</div>

@@ -1,0 +1,24 @@
+@if (timeline().length) {
+  <ol class="timeline card">
+    @for (event of timeline(); track $index; let first = $first) {
+      <li class="item">
+        <span class="marker" [class.marker--latest]="first" aria-hidden="true">
+          <mat-icon class="icon-18">{{ icons[event.type] }}</mat-icon>
+        </span>
+        <div class="text">
+          <p class="title">{{ event.title }}</p>
+          <p class="description">{{ event.description }}</p>
+          <time class="date" [attr.datetime]="event.date">{{
+            event.date | date: 'dd MMM yyyy'
+          }}</time>
+        </div>
+      </li>
+    }
+  </ol>
+} @else {
+  <app-empty-state
+    icon="history"
+    title="No activity yet"
+    message="Changes to this employee will show up here."
+  />
+}

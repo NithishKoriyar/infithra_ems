@@ -1,7 +1,10 @@
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 
+import { environment } from '../../../environments/environment';
 import { routes } from '../../app.routes';
 
 /** Renders the real app routes (shell included) and reads the breadcrumb from the top bar. */
@@ -26,7 +29,11 @@ function labels(breadcrumb: HTMLElement): string[] {
 describe('BreadcrumbComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideRouter(routes, withComponentInputBinding())],
+      providers: [
+        provideRouter(routes, withComponentInputBinding()),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     });
   });
 
@@ -55,9 +62,23 @@ describe('BreadcrumbComponent', () => {
   });
 
   it('uses the label set at runtime by the details page', async () => {
-    const breadcrumb = await breadcrumbAt('/employees/42');
+    const harness = await RouterTestingHarness.create('/employees/42');
+    TestBed.inject(HttpTestingController).expectOne(`${environment.apiUrl}/employees/42`).flush({
+      id: 42,
+      firstName: 'Sara',
+      lastName: 'Ahmed',
+      status: 'Active',
+      notes: '',
+      skills: [],
+      documents: [],
+      activity: [],
+    });
+    await harness.fixture.whenStable();
+    const breadcrumb = (harness.fixture.nativeElement as HTMLElement).querySelector<HTMLElement>(
+      'app-breadcrumb',
+    );
 
-    expect(labels(breadcrumb)).toEqual(['Home', 'Employees', 'Employee 42']);
+    expect(breadcrumb && labels(breadcrumb)).toEqual(['Home', 'Employees', 'Sara Ahmed']);
   });
 
   it('shows Edit Employee on the edit route', async () => {

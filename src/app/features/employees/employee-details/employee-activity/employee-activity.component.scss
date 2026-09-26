@@ -1,0 +1,83 @@
+:host {
+  display: block;
+}
+
+.timeline {
+  margin: 0;
+  padding: 24px;
+  list-style: none;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  padding-bottom: 28px;
+
+  // Connecting line from this marker down to the next one.
+  &::before {
+    content: '';
+    position: absolute;
+    top: 40px;
+    bottom: 4px;
+    left: 17px;
+    width: 1px;
+    background: var(--border);
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+
+    &::before {
+      display: none;
+    }
+  }
+}
+
+.marker {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: var(--card);
+  color: var(--muted);
+}
+
+.marker--latest {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.text {
+  min-width: 0;
+  padding-top: 2px;
+}
+
+.title {
+  margin: 0;
+  font-weight: 500;
+}
+
+.description {
+  margin: 2px 0 0;
+  color: var(--muted);
+}
+
+.date {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+@media (max-width: 767.98px) {
+  .timeline {
+    padding: 16px;
+  }
+}

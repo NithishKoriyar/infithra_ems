@@ -1,0 +1,111 @@
+@use '@angular/material' as mat;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+
+  @include mat.progress-bar-overrides(
+    (
+      active-indicator-color: var(--accent),
+      track-color: var(--hover),
+      track-height: 6px,
+      active-indicator-height: 6px,
+      track-shape: var(--radius-full),
+    )
+  );
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.avatar--80 {
+  width: 80px;
+  height: 80px;
+  font-size: 26px;
+}
+
+.identity {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.name-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.name {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+}
+
+.role {
+  margin: 0;
+  color: var(--muted);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 13px;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+  }
+}
+
+.edit {
+  flex: none;
+}
+
+.progress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 420px;
+}
+
+.progress-label {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+mat-progress-bar {
+  border-radius: var(--radius-full);
+}
+
+@media (max-width: 767.98px) {
+  :host {
+    padding: 16px;
+  }
+
+  .top {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .edit {
+    width: 100%;
+  }
+}
