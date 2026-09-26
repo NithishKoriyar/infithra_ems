@@ -135,7 +135,9 @@
       </mat-datepicker-toggle>
       <mat-datepicker #dobPicker startView="multi-year" />
       <mat-error>
-        @if (c.dateOfBirth.hasError('required')) {
+        @if (c.dateOfBirth.hasError('matDatepickerParse')) {
+          Enter a valid date (DD/MM/YYYY)
+        } @else if (c.dateOfBirth.hasError('required')) {
           Date of birth is required
         } @else if (c.dateOfBirth.hasError('futureDate')) {
           Date of birth can't be in the future

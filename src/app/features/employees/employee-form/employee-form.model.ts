@@ -98,7 +98,7 @@ export function createEmployeeForm(
     job: fb.group({
       department: fb.control('', Validators.required),
       designation: fb.control({ value: '', disabled: true }, Validators.required),
-      joiningDate: fb.control<Date | null>(null, Validators.required),
+      joiningDate: fb.control<Date | null>(null, [Validators.required, notFutureDate]),
       employmentType: fb.control<EmploymentType>('Full-time', Validators.required),
       contractEndDate: fb.control<Date | null>({ value: null, disabled: true }, [
         Validators.required,

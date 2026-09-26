@@ -36,6 +36,7 @@
         matInput
         id="joiningDate"
         [matDatepicker]="joiningPicker"
+        [max]="today"
         formControlName="joiningDate"
         placeholder="DD/MM/YYYY"
       />
@@ -44,8 +45,14 @@
       </mat-datepicker-toggle>
       <mat-datepicker #joiningPicker />
       <mat-error>
-        @if (c.joiningDate.hasError('required')) {
+        @if (c.joiningDate.hasError('matDatepickerParse')) {
+          Enter a valid date (DD/MM/YYYY)
+        } @else if (c.joiningDate.hasError('required')) {
           Joining date is required
+        } @else if (
+          c.joiningDate.hasError('futureDate') || c.joiningDate.hasError('matDatepickerMax')
+        ) {
+          Joining date can't be in the future
         } @else {
           Enter a valid date
         }
@@ -86,7 +93,9 @@
         </mat-datepicker-toggle>
         <mat-datepicker #contractPicker />
         <mat-error>
-          @if (c.contractEndDate.hasError('required')) {
+          @if (c.contractEndDate.hasError('matDatepickerParse')) {
+            Enter a valid date (DD/MM/YYYY)
+          } @else if (c.contractEndDate.hasError('required')) {
             Contract end date is required
           } @else if (c.contractEndDate.hasError('dateAfter')) {
             Contract end date must be after the joining date
@@ -154,7 +163,7 @@
     <label class="field-label" for="salary">Monthly salary (AED) <span class="req">*</span></label>
     <mat-form-field appearance="outline" subscriptSizing="dynamic">
       <span matTextPrefix class="prefix">AED</span>
-      <input matInput id="salary" type="number" min="0" step="0.01" formControlName="salary" />
+      <input matInput id="salary" appAmountInput formControlName="salary" placeholder="0.00" />
       <mat-error>
         @if (c.salary.hasError('required')) {
           Salary is required

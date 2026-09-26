@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -34,6 +34,7 @@ import {
 } from '../models/employee.model';
 import { EmployeeDropdownService } from '../services/employee-dropdown.service';
 import { EmployeeService } from '../services/employee.service';
+import { DayMonthYearDateAdapter } from './day-month-year-date-adapter';
 import {
   EmployeeForm,
   createEmployeeForm,
@@ -62,7 +63,11 @@ const LAST_STEP = 2;
     ReactiveFormsModule,
     RouterLink,
   ],
-  providers: [provideNativeDateAdapter(), { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
+  providers: [
+    provideNativeDateAdapter(),
+    { provide: DateAdapter, useClass: DayMonthYearDateAdapter },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+  ],
   templateUrl: './employee-form.component.html',
   styleUrl: './employee-form.component.scss',
   host: { '(window:beforeunload)': 'onBeforeUnload($event)' },
@@ -213,10 +218,10 @@ export class EmployeeFormComponent implements OnInit, HasUnsavedChanges {
       ? this.employees.updateEmployee(original.id, { ...payload, employeeId: original.employeeId })
       : this.employees.addEmployee(payload);
     request.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (saved) => {
+      next: () => {
         this.saved = true;
         this.notifications.success('Employee saved successfully');
-        void this.router.navigate(['/employees', saved.id]);
+        void this.router.navigate(['/employees']);
       },
       error: (error: Error) => {
         this.saving.set(false);

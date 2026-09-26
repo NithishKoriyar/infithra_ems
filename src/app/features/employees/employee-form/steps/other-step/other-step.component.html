@@ -64,7 +64,13 @@
                 <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
               </mat-datepicker-toggle>
               <mat-datepicker #expiryPicker />
-              <mat-error>Expiry date is required</mat-error>
+              <mat-error>
+                @if (r.expiryDate.hasError('matDatepickerParse')) {
+                  Enter a valid date (DD/MM/YYYY)
+                } @else {
+                  Expiry date is required
+                }
+              </mat-error>
             </mat-form-field>
           </div>
 

@@ -24,11 +24,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { catchError, of, switchMap } from 'rxjs';
 
 import { EmployeeDropdownService } from '../../../services/employee-dropdown.service';
+import { AmountInputDirective } from '../../amount-input.directive';
 import { JobForm, MAX_SKILLS } from '../../employee-form.model';
 
 @Component({
   selector: 'app-job-step',
   imports: [
+    AmountInputDirective,
     MatAutocompleteModule,
     MatChipsModule,
     MatDatepickerModule,
@@ -50,6 +52,7 @@ export class JobStepComponent implements OnInit {
   readonly form = input.required<JobForm>();
 
   protected readonly maxSkills = MAX_SKILLS;
+  protected readonly today = new Date();
   protected readonly skillInput = new FormControl('', { nonNullable: true });
   protected readonly skillError = signal<string | null>(null);
 
